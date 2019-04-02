@@ -6,7 +6,8 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: ''
+      name: '',
+      email: ''
     };
   }
 
@@ -19,16 +20,24 @@ class App extends Component {
           <div className="control">
             <input className="input" type="text" placeholder="Text input" 
               value={this.state.name}
-              onChange={e => this.onFieldChange(e)} />
+              onChange={e => this.onFieldChange('name', e)} />
+          </div>
+        </div>
+        <div className="field">
+          <label className="label">Email</label>
+          <div className="control">
+            <input className="input" type="text" placeholder="Email" 
+              value={this.state.email}
+              onChange={e => this.onFieldChange('email', e)} />
           </div>
         </div>
       </div>
     );
   }
 
-  onFieldChange(e) {
+  onFieldChange(feild, e) {
     const value = e.target.value;
-    this.setState({ name: value });
+    this.setState({ [feild]: value });
   }
 }
 
