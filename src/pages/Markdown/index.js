@@ -2,7 +2,7 @@ import React from 'react';
 import marked from 'marked';
 import './style.scss';
 
-const App = () => (
+const Markdown = () => (
   <div className="markdown">
     <div className="toolbar">
       <button className="button is-small">
@@ -36,4 +36,4 @@ const App = () => (
   </div>
 )
 
-export default App;
+export default Markdown;
