@@ -1,5 +1,6 @@
 import React from 'react';
 import marked from 'marked';
+import IconButton from 'components/IconButton';
 import 'github-markdown-css';
 import './style.scss';
 
@@ -11,31 +12,23 @@ class Markdown extends React.Component {
     };
   }
 
+  componentDidMount() {
+    const markdown = localStorage.getItem('markdownEditorValue');
+
+    if (markdown) {
+      this.setState({  markdown });
+    }
+  }
+
   render() {
     const html = marked(this.state.markdown);
     return (
       <div className="markdown">
         <div className="toolbar">
-          <button className="button is-small">
-            <span className="icon is-small">
-              <i className="iconfont icon-editor-bold" />
-            </span>
-          </button>
-          <button className="button is-small">
-            <span className="icon is-small">
-              <i className="iconfont icon-editor-italic" />
-            </span>
-          </button>
-          <button className="button is-small">
-            <span className="icon is-small">
-              <i className="iconfont icon-editor-underline" />
-            </span>
-          </button>
-          <button className="button is-small">
-            <span className="icon is-small">
-              <i className="iconfont icon-editor-list-bulleted" />
-            </span>
-          </button>
+          <IconButton icon="icon-editor-bold" />
+          <IconButton icon="icon-editor-italic" />
+          <IconButton icon="icon-editor-underline" />
+          <IconButton icon="icon-editor-list-bulleted" />
         </div>
         <div className="body box">
           <div className="editor">
@@ -51,6 +44,7 @@ class Markdown extends React.Component {
 
   onFieldChange(name, e) {
     this.setState({ [name]: e.target.value });
+    localStorage.setItem('markdownEditorValue', e.target.value);
   }
 }
 
