@@ -10,6 +10,7 @@ class Markdown extends React.Component {
     this.state = {
       markdown: ''
     };
+    this.myRef = React.createRef();
   }
 
   componentDidMount() {
@@ -18,6 +19,8 @@ class Markdown extends React.Component {
     if (markdown) {
       this.setState({  markdown });
     }
+
+    console.log(this.myRef.current);
   }
 
   render() {
@@ -25,15 +28,17 @@ class Markdown extends React.Component {
     return (
       <div className="markdown">
         <div className="toolbar">
-          <IconButton icon="icon-editor-bold" />
+          <IconButton icon="icon-editor-bold" onClick={e => this.onBoldClick(e)} />
           <IconButton icon="icon-editor-italic" />
           <IconButton icon="icon-editor-underline" />
           <IconButton icon="icon-editor-list-bulleted" />
         </div>
         <div className="body box">
           <div className="editor">
-            <textarea className="textarea" value={this.state.markdown} 
-              onChange={e => this.onFieldChange('markdown', e)} />
+            <textarea className="textarea" 
+              value={this.state.markdown} 
+              onChange={e => this.onFieldChange('markdown', e)}
+              ref={this.myRef} />
           </div>
           <div className="preview markdown-body" dangerouslySetInnerHTML={{ __html: html }}>
           </div>
@@ -45,6 +50,17 @@ class Markdown extends React.Component {
   onFieldChange(name, e) {
     this.setState({ [name]: e.target.value });
     localStorage.setItem('markdownEditorValue', e.target.value);
+  }
+
+  onBoldClick() {
+    const txt = this.myRef.current;
+    const start = txt.selectionStart;
+    const end = txt.selectionEnd;
+
+    let md = this.state.markdown;
+    md = md.substring(0, start) + '**' + md.substring(start, end) + '**' + md.substring(end);
+
+    this.setState({ markdown: md });
   }
 }
 
